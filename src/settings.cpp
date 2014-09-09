@@ -625,7 +625,7 @@ bool Configuration::read(const std::string &config_path)
 	p.add("active_column_color", assign_default(
 		active_column_color, NC::Color::Red
 	));
-	p.add("visualizer_color", option_parser::worker([this](std::string &&v) {
+	p.add("visualizer_colors", option_parser::worker([this](std::string &&v) {
 		boost::sregex_token_iterator i(v.begin(), v.end(), boost::regex("\\w+")), j;
 		for (; i != j; ++i)
 		{
@@ -633,7 +633,7 @@ bool Configuration::read(const std::string &config_path)
 			visualizer_colors.push_back(color);
 		}
 	}, [this] {
-			visualizer_colors = { NC::Color::Blue, NC::Color::Cyan, NC::Color::Green, NC::Color::Yellow, NC::Color::Red };
+		visualizer_colors = { NC::Color::Blue, NC::Color::Cyan, NC::Color::Green, NC::Color::Yellow, NC::Color::Red };
 	}));
 	p.add("window_border_color", assign_default(
 		window_border, NC::Border::Green
