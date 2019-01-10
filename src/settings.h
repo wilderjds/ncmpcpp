@@ -109,6 +109,8 @@ struct Configuration
 	NC::Buffer selected_item_suffix;
 	NC::Buffer now_playing_prefix;
 	NC::Buffer now_playing_suffix;
+    NC::Buffer not_playing_prefix;
+	NC::Buffer not_playing_suffix;
 	NC::Buffer modified_item_prefix;
 	NC::Buffer current_item_prefix;
 	NC::Buffer current_item_suffix;
@@ -209,6 +211,8 @@ struct Configuration
 	size_t selected_item_suffix_length;
 	size_t now_playing_prefix_length;
 	size_t now_playing_suffix_length;
+    size_t not_playing_prefix_length;
+	size_t not_playing_suffix_length;
 	size_t current_item_prefix_length;
 	size_t current_item_suffix_length;
 	size_t current_item_inactive_column_prefix_length;

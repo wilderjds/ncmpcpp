@@ -37,7 +37,7 @@ void drawHeader()
 	using Global::myScreen;
 	using Global::wHeader;
 	using Global::VolumeState;
-	
+
 	if (!Config.header_visibility)
 		return;
 	switch (Config.design)
@@ -62,9 +62,9 @@ void drawHeader()
 			mvwhline(wHeader->raw(), 4, 0, 0, COLS);
 			*wHeader << NC::FormattedColor::End<>(Config.alternative_ui_separator_color)
 			         << NC::XY((COLS-wideLength(title))/2, 3)
-			         << NC::Format::Bold
-			         << title
-			         << NC::Format::NoBold;
+                //			         << NC::Format::Bold
+			         << title;
+                //			         << NC::Format::NoBold;
 			break;
 	}
 	wHeader->refresh();

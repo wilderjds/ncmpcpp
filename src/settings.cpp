@@ -375,6 +375,16 @@ bool Configuration::read(const std::vector<std::string> &config_paths, bool igno
 	                nullptr,
 	                std::ref(now_playing_suffix_length),
 	                ph::_1));
+    p.add("not_playing_prefix", &not_playing_prefix, "",
+	      std::bind(buffer_wlength,
+	                nullptr,
+	                std::ref(not_playing_prefix_length),
+	                ph::_1));
+	p.add("not_playing_suffix", &not_playing_suffix, "",
+	      std::bind(buffer_wlength,
+	                nullptr,
+	                std::ref(not_playing_suffix_length),
+	                ph::_1));
 	p.add("browser_playlist_prefix", &browser_playlist_prefix, "$2playlist$9 ", buffer);
 	p.add("selected_item_prefix", &selected_item_prefix, "$6",
 	      std::bind(buffer_wlength,

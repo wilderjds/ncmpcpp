@@ -110,6 +110,8 @@ void setProperties(NC::Menu<T> &menu, const MPD::Song &s, const SongList &list,
 		&& song_pos == Status::State::currentSongPosition();
 	if (is_now_playing)
 		menu << Config.now_playing_prefix;
+    else
+        menu << Config.not_playing_prefix;
 
 	is_in_playlist = !myPlaylist->isActiveWindow(menu)
 		&& myPlaylist->checkForSong(s);
@@ -129,6 +131,8 @@ void unsetProperties(NC::Menu<T> &menu, bool separate_albums, bool is_now_playin
 
 	if (is_now_playing)
 		menu << Config.now_playing_suffix;
+    else
+        menu << Config.not_playing_suffix;
 
 	if (separate_albums)
 		menu << NC::Format::NoUnderline;
@@ -158,6 +162,8 @@ void showSongs(NC::Menu<T> &menu, const MPD::Song &s, const SongList &list, cons
 		}
 		if (is_now_playing)
 			x_off -= Config.now_playing_suffix_length;
+        else
+            x_off -= Config.not_playing_suffix_length;
 		if (is_selected)
 			x_off -= Config.selected_item_suffix_length;
 		menu << NC::TermManip::ClearToEOL << NC::XY(x_off, y) << right_aligned;
@@ -191,9 +197,14 @@ void showSongsInColumns(NC::Menu<T> &menu, const MPD::Song &s, const SongList &l
 	}
 	if (is_now_playing)
 	{
-		menu_width -= Config.now_playing_prefix_length;
-		menu_width -= Config.now_playing_suffix_length;
+        //		menu_width -= Config.now_playing_prefix_length;
+		//menu_width -= Config.now_playing_suffix_length;
+	} else
+    {
+        //menu_width -= Config.not_playing_prefix_length;
+        //menu_width -= Config.not_playing_suffix_length;
 	}
+
 	if (is_selected)
 	{
 		menu_width -= Config.selected_item_prefix_length;
@@ -274,7 +285,9 @@ std::string Display::Columns(size_t list_width)
 	std::string result;
 	if (Config.columns.empty())
 		return result;
-	
+
+    result += Config.not_playing_prefix.str();
+
 	int width;
 	int remained_width = list_width;
 	std::vector<Column>::const_iterator it, last = Config.columns.end() - 1;
@@ -293,11 +306,11 @@ std::string Display::Columns(size_t list_width)
 		// and next column, so we substract it now and restore later.
 		if (it != last)
 			--width;
-		
+
 		// if column doesn't fit into screen, discard it and any other after it.
 		if (remained_width-width < 0 || width < 0 /* this one may come from (*) */)
 			break;
-		
+
 		std::wstring name;
 		if (it->name.empty())
 		{
@@ -315,7 +328,7 @@ std::string Display::Columns(size_t list_width)
 		else
 			name = it->name;
 		wideCut(name, width);
-		
+
 		int x_off = std::max(0, width - int(wideLength(name)));
 		if (it->right_alignment)
 		{
@@ -327,7 +340,7 @@ std::string Display::Columns(size_t list_width)
 			result += Charset::utf8ToLocale(ToString(name));
 			result += std::string(x_off, NC::Key::Space);
 		}
-		
+
 		if (it != last)
 		{
 			// add missing width's part and restore the value.
@@ -335,7 +348,7 @@ std::string Display::Columns(size_t list_width)
 			result += ' ';
 		}
 	}
-	
+
 	return result;
 }
 
